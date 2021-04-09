@@ -1,0 +1,59 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'io.tanzu.labs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+// CI stuff to add
+//sourceSets {
+//	integrationTest {
+//		java {
+//			compileClasspath += main.output + test.output
+//			runtimeClasspath += main.output + test.output
+//			srcDir file('src/integration-test/java')
+//		}
+//		resources.srcDir file('src/integration-test/resources')
+//	}
+//}
+//
+//task integrationTest(type: Test) {
+//	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+//	classpath = sourceSets.integrationTest.runtimeClasspath
+//	outputs.upToDateWhen { false }
+//}
+//
+//configurations {
+//	integrationTestCompile.extendsFrom testImplementation
+//	integrationTestRuntime.extendsFrom testRuntime
+//}
+
+test {
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+
+//integrationTest {
+//	testLogging {
+//		events "passed", "skipped", "failed"
+//	}
+//}
