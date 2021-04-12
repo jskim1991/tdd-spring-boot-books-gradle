@@ -16,11 +16,11 @@ matrix:
       script:
         - make travis-tests
 
-#    - name: "Book Service Integration Tests"
-#      os: osx
-#      language: java
-#      jdk: oraclejdk11
-#      install:
-#        - ./gradlew assemble
-#      script:
-#        - make travis-integrationtests
+    - name: "Book Service Integration Tests"
+      os: osx
+      language: java
+      jdk: oraclejdk11
+      install:
+        - ./gradlew assemble
+      script:
+        - make travis-integrationtests
