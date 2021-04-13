@@ -78,7 +78,7 @@ public class FakeBookRepositoryTests {
     void test_updateBookWhichDoesNotExist_throwsException() {
         RuntimeException thrownException = assertThrows(RuntimeException.class, () ->
                 fakeBookRepository.update(999, new UpdateBook("Updated Book1")));
-        assertThat(thrownException.getMessage(), equalTo("No book to update for id 999"));
+        assertThat(thrownException.getMessage(), equalTo("No such book for id 999"));
     }
 
     // TODO: maybe be better to split into 2 test cases
@@ -110,6 +110,6 @@ public class FakeBookRepositoryTests {
     @Test
     void test_deleteBookWhichDoesNotExist_throwsException() {
         RuntimeException thrownException = assertThrows(RuntimeException.class, () -> fakeBookRepository.delete(999));
-        assertThat(thrownException.getMessage(), equalTo("No book to delete for id 999"));
+        assertThat(thrownException.getMessage(), equalTo("No such book for id 999"));
     }
 }

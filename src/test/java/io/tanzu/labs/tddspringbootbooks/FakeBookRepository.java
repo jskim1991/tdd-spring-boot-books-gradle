@@ -20,7 +20,7 @@ public class FakeBookRepository implements BookRepository {
 
     @Override
     public Book getBook(int id) {
-        throwExceptionIfBookDoesNotExist(id, "No such book for id ");
+        throwExceptionIfBookDoesNotExist(id);
         return bookMap.get(id);
     }
 
@@ -33,7 +33,7 @@ public class FakeBookRepository implements BookRepository {
 
     @Override
     public Book update(int id, UpdateBook updateBook) {
-        throwExceptionIfBookDoesNotExist(id, "No book to update for id ");
+        throwExceptionIfBookDoesNotExist(id);
         Book updatedBook = new Book(id, updateBook.getName());
         bookMap.put(id, updatedBook);
         return updatedBook;
@@ -41,13 +41,13 @@ public class FakeBookRepository implements BookRepository {
 
     @Override
     public void delete(int id) {
-        throwExceptionIfBookDoesNotExist(id, "No book to delete for id ");
+        throwExceptionIfBookDoesNotExist(id);
         bookMap.remove(id);
     }
 
-    private void throwExceptionIfBookDoesNotExist(int id, String exceptionMessage) {
+    private void throwExceptionIfBookDoesNotExist(int id) {
         if (bookMap.containsKey(id) == false) {
-            throw new RuntimeException(exceptionMessage + id);
+            throw new RuntimeException("No such book for id " + id);
         }
     }
 }

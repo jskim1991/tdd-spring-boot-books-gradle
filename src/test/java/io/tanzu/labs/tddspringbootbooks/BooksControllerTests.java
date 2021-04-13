@@ -55,7 +55,7 @@ public class BooksControllerTests {
     }
 
     @Test
-    public void test_getBook_returnsEmptyArray() throws Exception {
+    public void test_getBook_returnsOk() throws Exception {
         mockMvc.perform(get("/books/1"))
                 .andExpect(status().isOk())
         ;
