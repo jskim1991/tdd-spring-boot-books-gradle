@@ -1,5 +1,9 @@
-package io.tanzu.labs.tddspringbootbooks;
+package io.tanzu.labs.tddspringbootbooks.rest;
 
+import io.tanzu.labs.tddspringbootbooks.repository.BookRepository;
+import io.tanzu.labs.tddspringbootbooks.domain.Book;
+import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
+import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

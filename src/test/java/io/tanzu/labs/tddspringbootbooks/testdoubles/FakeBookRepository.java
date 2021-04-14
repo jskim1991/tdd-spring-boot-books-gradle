@@ -1,4 +1,9 @@
-package io.tanzu.labs.tddspringbootbooks;
+package io.tanzu.labs.tddspringbootbooks.testdoubles;
+
+import io.tanzu.labs.tddspringbootbooks.domain.Book;
+import io.tanzu.labs.tddspringbootbooks.repository.BookRepository;
+import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
+import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
 
 import java.util.ArrayList;
 import java.util.HashMap;

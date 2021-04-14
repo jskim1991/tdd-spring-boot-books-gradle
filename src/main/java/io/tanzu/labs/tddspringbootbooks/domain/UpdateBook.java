@@ -1,4 +1,4 @@
-package io.tanzu.labs.tddspringbootbooks;
+package io.tanzu.labs.tddspringbootbooks.domain;
 
 import java.util.Objects;
 

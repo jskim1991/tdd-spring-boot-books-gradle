@@ -1,6 +1,11 @@
 package io.tanzu.labs.tddspringbootbooks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
+import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
+import io.tanzu.labs.tddspringbootbooks.repository.BookEntity;
+import io.tanzu.labs.tddspringbootbooks.repository.BookJpaRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -9,13 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
 
 import javax.transaction.Transactional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +35,10 @@ class TddSpringBootBooksApplicationTests {
 
     @Autowired
     private BookJpaRepository jpaRepository;
+
+    @BeforeEach
+    void setup() {
+    }
 
     @Test
     void contextLoads() {
@@ -134,6 +141,7 @@ class TddSpringBootBooksApplicationTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json));
 
+
         BookEntity actualBook = jpaRepository.findById(1).get();
         assertThat(actualBook.getName(), equalTo("Updated Book1"));
     }
@@ -151,33 +159,27 @@ class TddSpringBootBooksApplicationTests {
 
     @Test
     void test_getBookWhenEmpty_throwsException() throws Exception {
-        NestedServletException e = assertThrows(NestedServletException.class, () ->
-                mockMvc.perform(get("/books/999"))
-        );
-        RuntimeException innerException = (RuntimeException) e.getCause();
-        assertThat(innerException.getClass(), equalTo(RuntimeException.class));
-        assertThat(innerException.getMessage(), equalTo("No such book for id 999"));
+        mockMvc.perform(get("/books/999"))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString(), equalTo("No such book for id 999")))
+        ;
     }
 
     @Test
-    public void test_updateBookWhenEmpty_throwsException() {
-        NestedServletException e = assertThrows(NestedServletException.class, () ->
-                mockMvc.perform(put("/books/999")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
-        );
-        RuntimeException innerException = (RuntimeException) e.getCause();
-        assertThat(innerException.getClass(), equalTo(RuntimeException.class));
-        assertThat(innerException.getMessage(), equalTo("No such book for id 999"));
+    public void test_updateBookWhenEmpty_throwsException() throws Exception {
+        mockMvc.perform(put("/books/999")
+                .content("{}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString(), equalTo("No such book for id 999")))
+        ;
     }
 
     @Test
-    void test_deleteBookWhenEmpty_throwsException() {
-        NestedServletException e = assertThrows(NestedServletException.class, () ->
-                mockMvc.perform(delete("/books/999"))
-        );
-        RuntimeException innerException = (RuntimeException) e.getCause();
-        assertThat(innerException.getClass(), equalTo(RuntimeException.class));
-        assertThat(innerException.getMessage(), equalTo("No such book for id 999"));
+    void test_deleteBookWhenEmpty_throwsException() throws Exception {
+        mockMvc.perform(delete("/books/999"))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString(), equalTo("No such book for id 999")))
+        ;
     }
 }

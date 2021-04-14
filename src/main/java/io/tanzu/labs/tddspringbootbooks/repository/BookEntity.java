@@ -1,4 +1,6 @@
-package io.tanzu.labs.tddspringbootbooks;
+package io.tanzu.labs.tddspringbootbooks.repository;
+
+import io.tanzu.labs.tddspringbootbooks.domain.Book;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +21,11 @@ public class BookEntity {
         this.name = name;
     }
 
+    public BookEntity(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Book toDomain() {
         return new Book(this.id, this.name);
     }
@@ -27,7 +34,7 @@ public class BookEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Integer getId() {
+        return id;
     }
 }

@@ -1,5 +1,11 @@
-package io.tanzu.labs.tddspringbootbooks;
+package io.tanzu.labs.tddspringbootbooks.rest;
 
+import io.tanzu.labs.tddspringbootbooks.domain.Book;
+import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
+import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
+import io.tanzu.labs.tddspringbootbooks.testdoubles.FakeBookRepository;
+import io.tanzu.labs.tddspringbootbooks.testdoubles.SpyBookRepository;
+import io.tanzu.labs.tddspringbootbooks.testdoubles.StubBookRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

@@ -1,5 +1,9 @@
-package io.tanzu.labs.tddspringbootbooks;
+package io.tanzu.labs.tddspringbootbooks.repository;
 
+import io.tanzu.labs.tddspringbootbooks.domain.Book;
+import io.tanzu.labs.tddspringbootbooks.testdoubles.FakeBookRepository;
+import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
+import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
