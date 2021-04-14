@@ -139,6 +139,17 @@ class TddSpringBootBooksApplicationTests {
     }
 
     @Test
+    void test_deleteBook_deletesFromDB() throws Exception {
+        jpaRepository.save(new BookEntity("Book1"));
+
+
+        mockMvc.perform(delete("/books/1"));
+
+
+        assertThat(jpaRepository.findById(1).isEmpty(), equalTo(true));
+    }
+
+    @Test
     void test_getBookWhenEmpty_throwsException() throws Exception {
         NestedServletException e = assertThrows(NestedServletException.class, () ->
                 mockMvc.perform(get("/books/999"))
@@ -168,16 +179,5 @@ class TddSpringBootBooksApplicationTests {
         RuntimeException innerException = (RuntimeException) e.getCause();
         assertThat(innerException.getClass(), equalTo(RuntimeException.class));
         assertThat(innerException.getMessage(), equalTo("No such book for id 999"));
-    }
-
-    @Test
-    void test_deleteBook_deletesFromDB() throws Exception {
-        jpaRepository.save(new BookEntity("Book1"));
-
-
-        mockMvc.perform(delete("/books/1"));
-
-
-        assertThat(jpaRepository.findById(1).isEmpty(), equalTo(true));
     }
 }
