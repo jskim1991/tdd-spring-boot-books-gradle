@@ -161,7 +161,7 @@ class TddSpringBootBooksApplicationTests {
     void test_getBookWhenEmpty_throwsException() throws Exception {
         mockMvc.perform(get("/books/999"))
                 .andExpect(status().isNotFound())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString(), equalTo("No such book for id 999")))
+                .andExpect(jsonPath("$.message", equalTo("No such book for id 999")))
         ;
     }
 
@@ -171,7 +171,7 @@ class TddSpringBootBooksApplicationTests {
                 .content("{}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString(), equalTo("No such book for id 999")))
+                .andExpect(jsonPath("$.message", equalTo("No such book for id 999")))
         ;
     }
 
@@ -179,7 +179,7 @@ class TddSpringBootBooksApplicationTests {
     void test_deleteBookWhenEmpty_throwsException() throws Exception {
         mockMvc.perform(delete("/books/999"))
                 .andExpect(status().isNotFound())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString(), equalTo("No such book for id 999")))
+                .andExpect(jsonPath("$.message", equalTo("No such book for id 999")))
         ;
     }
 }

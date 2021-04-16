@@ -1,5 +1,7 @@
-package io.tanzu.labs.tddspringbootbooks.testdoubles;
+package io.tanzu.labs.tddspringbootbooks.testdoubles.jpa;
 
+import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
+import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
 import io.tanzu.labs.tddspringbootbooks.repository.BookEntity;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -15,8 +17,7 @@ public class SpyStubBookJpaRepository implements JpaRepository<BookEntity, Integ
 
     private List<BookEntity> findAll_returnValue;
     private Optional<BookEntity> findById_returnValue;
-    private BookEntity add_return_value;
-    private BookEntity update_return_value;
+    private BookEntity save_return_value;
 
     private int getBook_argument_id;
     private int updateBook_argument_id;
@@ -74,17 +75,8 @@ public class SpyStubBookJpaRepository implements JpaRepository<BookEntity, Integ
 
     @Override
     public <S extends BookEntity>S save(S entity) {
-        if (entity.getId() != null) {
-            updateBook_argument_id = entity.getId();
-        }
-
-        if (add_return_value != null) {
-            return (S) add_return_value;
-        }
-        else if (update_return_value != null) {
-            return (S) update_return_value;
-        }
-        return entity;
+        updateBook_argument_id = save_return_value.getId();
+        return (S) save_return_value;
     }
 
     @Override
@@ -167,11 +159,11 @@ public class SpyStubBookJpaRepository implements JpaRepository<BookEntity, Integ
     }
 
     public void setAdd_return_value(BookEntity add_return_value) {
-        this.add_return_value = add_return_value;
+        this.save_return_value = add_return_value;
     }
 
     public void setUpdate_return_value(BookEntity update_return_value) {
-        this.update_return_value = update_return_value;
+        this.save_return_value = update_return_value;
     }
 
     public int getGetBook_argument_id() {

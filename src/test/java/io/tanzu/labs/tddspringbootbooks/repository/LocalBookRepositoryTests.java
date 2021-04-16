@@ -3,7 +3,7 @@ package io.tanzu.labs.tddspringbootbooks.repository;
 import io.tanzu.labs.tddspringbootbooks.domain.Book;
 import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
 import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
-import io.tanzu.labs.tddspringbootbooks.testdoubles.SpyStubBookJpaRepository;
+import io.tanzu.labs.tddspringbootbooks.testdoubles.jpa.SpyStubBookJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -108,26 +108,21 @@ public class LocalBookRepositoryTests {
     }
 
     @Test
-    void test_updatedBook_returnsCorrectId() {
+    void test_updatedBook_usesCorrectInputs() {
         BookEntity book = new BookEntity(1, "Book1");
         spyStubBookJpaRepository.setFindById_returnValue(book);
+        spyStubBookJpaRepository.setUpdate_return_value(book);
+        UpdateBook updateBook = new UpdateBook("Updated Book1");
 
 
-        localBookRepository.update(1, new UpdateBook("Updated Book1"));
+        localBookRepository.update(1, updateBook);
 
 
         assertThat(spyStubBookJpaRepository.getUpdateBook_argument_id(), equalTo(1));
     }
 
     @Test
-    void test_deleteBookWhenEmpty_throwsException() {
-        RuntimeException thrownException = assertThrows(RuntimeException.class,
-                () -> localBookRepository.delete(999));
-        assertThat(thrownException.getMessage(), equalTo("No such book for id 999"));
-    }
-
-    @Test
-    void test_deleteBook_returnsCorrectId() {
+    void test_deleteBook_usesCorrectId() {
         BookEntity book = new BookEntity(1, "Book1");
         spyStubBookJpaRepository.setFindById_returnValue(book);
 
@@ -136,5 +131,12 @@ public class LocalBookRepositoryTests {
 
 
         assertThat(spyStubBookJpaRepository.getDeleteBook_argument_id(), equalTo(1));
+    }
+
+    @Test
+    void test_deleteBookWhenEmpty_throwsException() {
+        RuntimeException thrownException = assertThrows(RuntimeException.class,
+                () -> localBookRepository.delete(999));
+        assertThat(thrownException.getMessage(), equalTo("No such book for id 999"));
     }
 }
