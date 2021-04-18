@@ -1,5 +1,6 @@
 package io.tanzu.labs.tddspringbootbooks.rest;
 
+import io.tanzu.labs.tddspringbootbooks.repository.exception.NoSuchBookException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,10 @@ public class RestControllerExceptionHandler {
 //        return ResponseEntity.status(404).body(e.getMessage());
 //    }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(NoSuchBookException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ResourceError handleRuntimeException(RuntimeException e) {
+    public ResourceError handleRuntimeException(NoSuchBookException e) {
         return new ResourceError(e.getMessage());
     }
 

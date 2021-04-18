@@ -4,6 +4,7 @@ import io.tanzu.labs.tddspringbootbooks.domain.Book;
 import io.tanzu.labs.tddspringbootbooks.repository.BookRepository;
 import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
 import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
+import io.tanzu.labs.tddspringbootbooks.repository.exception.NoSuchBookException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ public class FakeBookRepository implements BookRepository {
 
     private void throwExceptionIfBookDoesNotExist(int id) {
         if (bookMap.containsKey(id) == false) {
-            throw new RuntimeException("No such book for id " + id);
+            throw new NoSuchBookException("No such book for id " + id);
         }
     }
 }

@@ -3,6 +3,8 @@ package io.tanzu.labs.tddspringbootbooks.rest;
 import io.tanzu.labs.tddspringbootbooks.domain.Book;
 import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
 import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
+import io.tanzu.labs.tddspringbootbooks.service.BookService;
+import io.tanzu.labs.tddspringbootbooks.service.BookLogic;
 import io.tanzu.labs.tddspringbootbooks.testdoubles.FakeBookRepository;
 import io.tanzu.labs.tddspringbootbooks.testdoubles.SpyBookRepository;
 import io.tanzu.labs.tddspringbootbooks.testdoubles.StubBookRepository;
@@ -20,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class BooksControllerTests {
+public class BookControllerTests {
 
     private MockMvc mockMvc;
     private StubBookRepository stubBookRepository;
@@ -28,10 +30,10 @@ public class BooksControllerTests {
     @BeforeEach
     public void setup() {
         stubBookRepository = new StubBookRepository();
-
+        BookService bookService = new BookLogic(stubBookRepository);
 
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new BooksController(stubBookRepository))
+                .standaloneSetup(new BooksController(bookService))
                 .build();
     }
 
@@ -82,7 +84,7 @@ public class BooksControllerTests {
     public void test_getBook_returnsCorrectId() throws Exception {
         SpyBookRepository spyBookRepository = new SpyBookRepository();
         MockMvc mockMvc = MockMvcBuilders
-                .standaloneSetup(new BooksController(spyBookRepository))
+                .standaloneSetup(new BooksController(new BookLogic(spyBookRepository)))
                 .build();
 
 
@@ -98,7 +100,7 @@ public class BooksControllerTests {
         fakeBookRepository.add(new NewBook("Book1"));
         fakeBookRepository.add(new NewBook("Book2"));
         MockMvc mockMvc = MockMvcBuilders
-                .standaloneSetup(new BooksController(fakeBookRepository))
+                .standaloneSetup(new BooksController(new BookLogic(fakeBookRepository)))
                 .build();
 
 
@@ -117,7 +119,7 @@ public class BooksControllerTests {
 
 
         MockMvc mockMvc = MockMvcBuilders
-                .standaloneSetup(new BooksController(fakeBookRepository))
+                .standaloneSetup(new BooksController(new BookLogic(fakeBookRepository)))
                 .build();
 
 
@@ -152,7 +154,7 @@ public class BooksControllerTests {
     void test_updateBook_updatesBookWithCorrectInputs() throws Exception {
         SpyBookRepository spyBookRepository = new SpyBookRepository();
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new BooksController(spyBookRepository))
+                .standaloneSetup(new BooksController(new BookLogic(spyBookRepository)))
                 .build();
 
         String json = "{\n" +
@@ -196,7 +198,7 @@ public class BooksControllerTests {
     void test_addBook_addsBookWithCorrectInputs() throws Exception {
         SpyBookRepository spyBookRepository = new SpyBookRepository();
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new BooksController(spyBookRepository))
+                .standaloneSetup(new BooksController(new BookLogic(spyBookRepository)))
                 .build();
 
         String json = "{\n" +
@@ -222,7 +224,7 @@ public class BooksControllerTests {
     void test_deleteBook_deletesWithCorrectId() throws Exception {
         SpyBookRepository spyBookRepository = new SpyBookRepository();
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new BooksController(spyBookRepository))
+                .standaloneSetup(new BooksController(new BookLogic(spyBookRepository)))
                 .build();
 
 

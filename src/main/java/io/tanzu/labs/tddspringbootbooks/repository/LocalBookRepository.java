@@ -3,6 +3,7 @@ package io.tanzu.labs.tddspringbootbooks.repository;
 import io.tanzu.labs.tddspringbootbooks.domain.Book;
 import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
 import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
+import io.tanzu.labs.tddspringbootbooks.repository.exception.NoSuchBookException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +30,7 @@ public class LocalBookRepository implements BookRepository {
     @Override
     public Book getBook(int id) {
         BookEntity bookEntity = jpaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No such book for id " + id));
+                .orElseThrow(() -> new NoSuchBookException("No such book for id " + id));
         return bookEntity.toDomain();
     }
 

@@ -1,6 +1,7 @@
 package io.tanzu.labs.tddspringbootbooks.repository;
 
 import io.tanzu.labs.tddspringbootbooks.domain.Book;
+import io.tanzu.labs.tddspringbootbooks.repository.exception.NoSuchBookException;
 import io.tanzu.labs.tddspringbootbooks.testdoubles.FakeBookRepository;
 import io.tanzu.labs.tddspringbootbooks.domain.NewBook;
 import io.tanzu.labs.tddspringbootbooks.domain.UpdateBook;
@@ -80,7 +81,7 @@ public class FakeBookRepositoryTests {
 
     @Test
     void test_updateBookWhichDoesNotExist_throwsException() {
-        RuntimeException thrownException = assertThrows(RuntimeException.class, () ->
+        NoSuchBookException thrownException = assertThrows(NoSuchBookException.class, () ->
                 fakeBookRepository.update(999, new UpdateBook("Updated Book1")));
         assertThat(thrownException.getMessage(), equalTo("No such book for id 999"));
     }
@@ -107,13 +108,13 @@ public class FakeBookRepositoryTests {
         fakeBookRepository.delete(1);
 
 
-        RuntimeException thrownException = assertThrows(RuntimeException.class, () -> fakeBookRepository.getBook(1));
+        NoSuchBookException thrownException = assertThrows(NoSuchBookException.class, () -> fakeBookRepository.getBook(1));
         assertThat(thrownException.getMessage(), equalTo("No such book for id 1"));
     }
 
     @Test
     void test_deleteBookWhichDoesNotExist_throwsException() {
-        RuntimeException thrownException = assertThrows(RuntimeException.class, () -> fakeBookRepository.delete(999));
+        NoSuchBookException thrownException = assertThrows(NoSuchBookException.class, () -> fakeBookRepository.delete(999));
         assertThat(thrownException.getMessage(), equalTo("No such book for id 999"));
     }
 }
